@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .animation-fade {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .container-page {
+    @apply max-w-[1200px] mx-auto;
+  }
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Background when responsive menu is opened */
+.css-8i0j0q {
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.css-1wvake5 {
+  border-right: 2px solid #CDA184 !important;
+}
+
+/* Styles from tabs of the events */
+.tag-link {
+  color: #000000 !important;
+  margin-top: 0 !important;
+}
+
+.border-primary {
+  border-bottom: 2px solid #CDA184 !important;
+}
+
+.tetabs {
+  flex-wrap: nowrap !important;
+}
+
+.bg-primary-colour {
+  background: #A85A26!important;
+}
+
+.bg-primary-colour-hover:hover {
+  background: rgba(185, 98, 40, 0.38)!important;
+}
