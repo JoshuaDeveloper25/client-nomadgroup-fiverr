@@ -1,17 +1,13 @@
 import logoGuestWise from "../../img/logo-guest-wise.png";
 import { useMutation } from "@tanstack/react-query";
 import getFastApiErrors from "../../utils/getFastApiErrors";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 const CreateEvent = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (eventInfo) => {
-      return axios.post(
-        `${import.meta.env.VITE_BASE_URL}/users/register`,
-        eventInfo
-      );
+      return axios.post(`${import.meta.env.VITE_BASE_URL}/events/`, eventInfo);
     },
     onSuccess: (res) => toast.success("Successfully Created!"),
     onError: (err) => toast.error(getFastApiErrors(err)),
@@ -21,29 +17,31 @@ const CreateEvent = () => {
     e.preventDefault();
 
     const userInfo = {
-      email: e?.target?.email?.value.trim(),
-      name: e?.target?.name?.value.trim(),
-      password: e?.target?.password.value.trim(),
-      passwordAttempt: e?.target?.passwordAttempt.value.trim(),
+      eventName: e?.target?.eventName?.value.trim(),
+      eventDate: e?.target?.eventDate?.value.trim(),
+      venue: e?.target?.venueEvent.value.trim(),
+      venueCapacity: e?.target?.eventVenueCapacity.value.trim(),
+      eventNotes: e?.target?.eventNotes.value.trim(),
     };
 
     if (
       [
-        userInfo?.email,
-        userInfo?.name,
-        userInfo?.password,
-        userInfo?.passwordAttempt,
+        userInfo?.eventName,
+        userInfo?.eventDate,
+        userInfo?.venue,
+        userInfo?.venueCapacity,
+        userInfo?.eventNotes,
       ].includes("")
     ) {
       return toast.error(`Fill up the blanks available!`);
-    } else if (userInfo?.password !== userInfo?.passwordAttempt) {
-      return toast.error(`Passwords are not the same!`);
     }
 
     mutate({
-      email: userInfo?.email,
-      name: userInfo?.name,
-      password: userInfo?.password,
+      eventName: userInfo?.eventName,
+      eventDate: userInfo?.eventDate,
+      venue: userInfo?.venue,
+      venueCapacity: userInfo?.venueCapacity,
+      eventNotes: userInfo?.eventNotes,
     });
   };
 
