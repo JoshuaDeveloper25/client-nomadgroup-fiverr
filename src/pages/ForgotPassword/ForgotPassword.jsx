@@ -61,7 +61,7 @@ const ForgotPassword = () => {
                   id="email"
                   name="email"
                   placeholder="name@mail.com"
-                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
+                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 font-normal transition-all border"
                 />
               </div>
             </div>
