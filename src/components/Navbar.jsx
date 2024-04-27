@@ -24,8 +24,8 @@ const Navbar = () => {
   };
 
   return userInfo?.access_token ? (
-    <header className="flex-1">
-      <div className="flex h-svh min-h-[400px]">
+    <header className="flex-1 h-full sticky top-0">
+      <div className="flex h-[100vh]">
         <Sidebar
           onBackdropClick={() => setToggled(false)}
           toggled={toggled}

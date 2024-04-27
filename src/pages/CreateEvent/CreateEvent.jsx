@@ -1,24 +1,19 @@
 import logoGuestWise from "../../img/logo-guest-wise.png";
 import { useMutation } from "@tanstack/react-query";
 import getFastApiErrors from "../../utils/getFastApiErrors";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-const ForgotPassword = () => {
-  const navigate = useNavigate();
-
+const CreateEvent = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: (userInfo) => {
+    mutationFn: (eventInfo) => {
       return axios.post(
-        `${import.meta.env.VITE_BASE_URL}/users/change-password`,
-        userInfo
+        `${import.meta.env.VITE_BASE_URL}/users/register`,
+        eventInfo
       );
     },
-    onSuccess: (res) => {
-      toast.success("Successfully Send it!");
-      navigate("/forgot-password-check-email");
-    },
+    onSuccess: (res) => toast.success("Successfully Created!"),
     onError: (err) => toast.error(getFastApiErrors(err)),
   });
 
@@ -27,19 +22,34 @@ const ForgotPassword = () => {
 
     const userInfo = {
       email: e?.target?.email?.value.trim(),
+      name: e?.target?.name?.value.trim(),
+      password: e?.target?.password.value.trim(),
+      passwordAttempt: e?.target?.passwordAttempt.value.trim(),
     };
 
-    if ([userInfo?.email].includes("")) {
+    if (
+      [
+        userInfo?.email,
+        userInfo?.name,
+        userInfo?.password,
+        userInfo?.passwordAttempt,
+      ].includes("")
+    ) {
       return toast.error(`Fill up the blanks available!`);
+    } else if (userInfo?.password !== userInfo?.passwordAttempt) {
+      return toast.error(`Passwords are not the same!`);
     }
 
     mutate({
       email: userInfo?.email,
+      name: userInfo?.name,
+      password: userInfo?.password,
     });
   };
+
   return (
-    <section className="container-page px-3 mt-4">
-      <div className="grid grid-cols-1 min-h-[90vh] items-center justify-center">
+    <section className="container-page md:ps-1 ps-2 md:pe-10 pe-2">
+      <div className="grid grid-cols-1 min-h-[90vh] items-center justify-center sm:mt-4 mt-10">
         <div>
           <img
             loading="lazy"
@@ -49,18 +59,60 @@ const ForgotPassword = () => {
           />
           <div className="text-center my-4">
             <h4 className="text-center border-b border-primary-color inline text-primary-colour font-bold text-2xl">
-              Reset Your Password{" "}
+              Create Event
             </h4>
           </div>
 
           <form onSubmit={handleSubmit} className="max-w-sm mx-auto mb-2">
             <div className="flex flex-col gap-6 mb-1">
               <div>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="eventName">Event Name</label>
                 <input
-                  id="email"
-                  name="email"
-                  placeholder="name@mail.com"
+                  name="eventName"
+                  id="eventName"
+                  placeholder="Name"
+                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="eventDate">Event Date</label>
+                <input
+                  id="eventDate"
+                  name="eventDate"
+                  type="date"
+                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="venueEvent">Event Venue</label>
+                <input
+                  id="venueEvent"
+                  name="venueEvent"
+                  type="text"
+                  placeholder="Venue"
+                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="eventVenueCapacity">Event Venue Capacity</label>
+                <input
+                  id="eventVenueCapacity"
+                  name="eventVenueCapacity"
+                  type="text"
+                  placeholder="Venue Capacity"
+                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="eventNotes">Event Notes</label>
+                <textarea
+                  id="eventNotes"
+                  name="eventNotes"
+                  placeholder="Notes"
                   className="outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
                 />
               </div>
@@ -90,19 +142,12 @@ const ForgotPassword = () => {
                       fill="#FFFFFF"
                     />
                   </svg>
-                  Sending...
+                  Creating...
                 </>
               ) : (
-                "Reset"
+                "Create"
               )}
             </button>
-
-            <p className="text-center block mt-4 font-normal">
-              Remember your password?{" "}
-              <Link to={`/`} className="font-bold border-b border-black">
-                Log In
-              </Link>
-            </p>
           </form>
         </div>
       </div>
@@ -110,4 +155,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default CreateEvent;

@@ -86,7 +86,7 @@ const SignUp = () => {
             </div>
 
             <button
-              className="mt-6 block w-full bg-primary-colour hover:bg-primary-colour/85 animation-fade text-white py-2 rounded-md capitalize"
+              className="mt-6 block w-full bg-primary-colour bg-primary-colour-hover animation-fade text-white py-2 rounded-md capitalize"
               disabled={isPending}
               type="submit"
             >

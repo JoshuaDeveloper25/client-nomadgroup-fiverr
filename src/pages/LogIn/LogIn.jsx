@@ -31,6 +31,11 @@ const LogIn = () => {
       toast.success(`Successfully Logged In!`);
       setUserInfo(res.data);
       navigate("/events");
+
+      // Placing globally the token
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${res?.data?.access_token}`;
     },
     onError: (err) => toast.error(getFastApiErrors(err)),
   });
@@ -96,7 +101,7 @@ const LogIn = () => {
             </div>
 
             <button
-              className="mt-3 block w-full bg-primary-colour hover:bg-primary-colour/85 animation-fade text-white py-2 rounded-md capitalize"
+              className="mt-3 block w-full bg-primary-colour bg-primary-colour-hover animation-fade text-white py-2 rounded-md capitalize"
               disabled={isPending}
               type="submit"
             >

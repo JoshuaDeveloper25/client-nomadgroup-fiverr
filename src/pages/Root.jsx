@@ -11,8 +11,8 @@ const Root = () => {
     <div className="flex lg:gap-5">
       {userInfo?.access_token ? <Navbar /> : null}
 
-      <div className="md:flex-[70%] flex-[100%]">
-        <div className="flex flex-col h-[100vh]">
+      <div className="md:flex-[70%] flex-[100%] min-h-full">
+        <div className="flex flex-col">
           <main>
             <Outlet />
           </main>

@@ -1,16 +1,31 @@
-const CardEvent = () => {
+const CardEvent = ({
+  id,
+  eventTitle,
+  venueName,
+  artists,
+  numberPeople,
+  eventDate,
+  ticket,
+  eventDetails,
+}) => {
   return (
     <article className="shadow-lg p-5 w-full rounded-md">
       <div className="flex justify-between">
-        <h3 className="font-bold text-xl">Cool Event Name</h3>
+        <h3 className="font-bold text-xl">{eventTitle}</h3>
 
-        <h4 className="text-secondary-colour font-semibold">20th Oct</h4>
+        <h4 className="text-secondary-colour font-semibold">{eventDate}</h4>
       </div>
 
       <div className="mt-2">
-        <h4 className="text-secondary-colour text-sm">Cool event details:</h4>
-        <h4 className="text-secondary-colour text-sm">Venue Name:</h4>
-        <h4 className="text-secondary-colour text-sm">Artists, Etc:</h4>
+        <h4 className="text-secondary-colour text-sm">
+          Cool event details: {eventDetails}
+        </h4>
+        <h4 className="text-secondary-colour text-sm">
+          Venue Name: {venueName}
+        </h4>
+        <h4 className="text-secondary-colour text-sm">
+          Artists, Etc: {artists}
+        </h4>
       </div>
 
       <div className="flex gap-3 items-center my-3">
@@ -21,7 +36,7 @@ const CardEvent = () => {
         </div>
 
         <div className="flex-[20%]">
-          <h3 className="text-sm text-black/70">100/400</h3>
+          <h3 className="text-sm text-black/70">{numberPeople}/400</h3>
         </div>
       </div>
       <div className="flex items-center gap-4">
@@ -29,7 +44,9 @@ const CardEvent = () => {
           Coming Up!
         </h3>
 
-        <h3 className="bg-secondary-color/15 text-sm px-2 border border-secondary-color rounded-2xl">{`#EE234`}</h3>
+        <h3 className="bg-secondary-color/15 text-sm px-2 border border-secondary-color rounded-2xl">
+          {ticket}
+        </h3>
       </div>
     </article>
   );

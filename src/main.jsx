@@ -25,6 +25,7 @@ import Events from "./pages/Events/Events";
 // --> Public and private routes
 import PublicRoutes from "./auth/PublicRoutes";
 import PrivateRoutes from "./auth/PrivateRoutes";
+import CreateEvent from "./pages/CreateEvent/CreateEvent";
 
 // --> Pages
 const router = createBrowserRouter([
@@ -77,6 +78,11 @@ const router = createBrowserRouter([
           {
             element: <Events />,
             path: "/events",
+          },
+
+          {
+            element: <CreateEvent />,
+            path: "/create-event",
           },
         ],
       },

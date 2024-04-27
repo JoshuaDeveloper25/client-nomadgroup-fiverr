@@ -1,6 +1,7 @@
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 import CardEvent from "./components/CardEvent";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   TETabs,
   TETabsContent,
@@ -8,8 +9,58 @@ import {
   TETabsPane,
 } from "tw-elements-react";
 
+const events = [
+  {
+    id: 1,
+    eventTitle: "Cool Event Name",
+    venueName: "Party",
+    eventDetails: "Friendly, Foodless, Funny",
+    artists: "John Doe, Jane Doe",
+    numberPeople: 100,
+    eventDate: "20th Oct",
+    ticket: "#EE234",
+    eventTime: "Current",
+  },
+
+  {
+    id: 2,
+    eventTitle: "Cool Event Name",
+    venueName: "Party",
+    eventDetails: "Friendly, Foodless, Funny",
+    artists: "John Doe, Jane Doe",
+    numberPeople: 100,
+    eventDate: "20th Oct",
+    ticket: "#EE234",
+    eventTime: "Past",
+  },
+
+  {
+    id: 3,
+    eventTitle: "Cool Event Name",
+    venueName: "Party",
+    eventDetails: "Friendly, Foodless, Funny",
+    artists: "John Doe, Jane Doe",
+    numberPeople: 100,
+    eventDate: "20th Oct",
+    ticket: "#EE234",
+    eventTime: "Current",
+  },
+
+  {
+    id: 4,
+    eventTitle: "Cool Event Name",
+    venueName: "Party",
+    artists: "John Doe, Jane Doe",
+    numberPeople: 100,
+    eventDate: "20th Oct",
+    ticket: "#EE234",
+    eventTime: "Past",
+  },
+];
+
 const Events = () => {
   const [basicActive, setBasicActive] = useState("tab1");
+  const navigate = useNavigate();
 
   const handleBasicClick = (value) => {
     if (value === basicActive) {
@@ -27,6 +78,7 @@ const Events = () => {
 
         <div>
           <button
+            onClick={() => navigate(`/create-event`)}
             className="text-white bg-primary-colour bg-primary-colour-hover animation-fade rounded px-2 py-2"
             type="button"
           >
@@ -74,10 +126,14 @@ const Events = () => {
 
       <TETabsContent>
         <TETabsPane show={basicActive === "tab1"}>
-          <CardEvent />
+          {events.map((event) => {
+            return <CardEvent key={event?.id} {...event} />;
+          })}
         </TETabsPane>
         <TETabsPane show={basicActive === "tab2"}>
-          <CardEvent />
+          {events.map((event) => {
+            return <CardEvent key={event?.id} {...event} />;
+          })}
         </TETabsPane>
       </TETabsContent>
     </section>
