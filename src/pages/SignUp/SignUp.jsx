@@ -1,11 +1,15 @@
 import logoGuestWise from "../../img/logo-guest-wise.png";
 import { useMutation } from "@tanstack/react-query";
 import getFastApiErrors from "../../utils/getFastApiErrors";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useRef } from "react";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const emailRef = useRef();
+
   const { mutate, isPending } = useMutation({
     mutationFn: (newUser) => {
       return axios.post(
@@ -13,7 +17,9 @@ const SignUp = () => {
         newUser
       );
     },
-    onSuccess: (res) => toast.success("Successfully Registered!"),
+    onSuccess: (res) => {
+      navigate(`/sign-up-check-email/?email=${emailRef?.current?.value}`);
+    },
     onError: (err) => toast.error(getFastApiErrors(err)),
   });
 
@@ -78,6 +84,7 @@ const SignUp = () => {
               <div>
                 <label htmlFor="email">Email</label>
                 <input
+                  ref={emailRef}
                   id="email"
                   name="email"
                   placeholder="name@mail.com"
