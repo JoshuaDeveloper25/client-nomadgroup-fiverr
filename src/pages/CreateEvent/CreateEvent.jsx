@@ -1,15 +1,22 @@
 import logoGuestWise from "../../img/logo-guest-wise.png";
 import { useMutation } from "@tanstack/react-query";
 import getFastApiErrors from "../../utils/getFastApiErrors";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 const CreateEvent = () => {
+  const navigate = useNavigate();
+
   const { mutate, isPending } = useMutation({
     mutationFn: (eventInfo) => {
       return axios.post(`${import.meta.env.VITE_BASE_URL}/events/`, eventInfo);
     },
-    onSuccess: (res) => toast.success("Successfully Created!"),
+    onSuccess: (res) => {
+      toast.success("Successfully Created!");
+      navigate("/events");
+      console.log(res);
+    },
     onError: (err) => toast.error(getFastApiErrors(err)),
   });
 

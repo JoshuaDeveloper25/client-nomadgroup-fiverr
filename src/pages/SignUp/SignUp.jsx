@@ -90,7 +90,7 @@ const SignUp = () => {
                 <input
                   id="password"
                   name="password"
-                  type="text"
+                  type="password"
                   placeholder="********"
                   className="outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
                 />

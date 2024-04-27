@@ -1,72 +1,50 @@
-import { HiMiniMagnifyingGlass } from "react-icons/hi2";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { useQuery } from "@tanstack/react-query";
 import CardEvent from "./components/CardEvent";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import {
   TETabs,
   TETabsContent,
   TETabsItem,
   TETabsPane,
 } from "tw-elements-react";
-
-const events = [
-  {
-    id: 1,
-    eventTitle: "Cool Event Name",
-    venueName: "Party",
-    eventDetails: "Friendly, Foodless, Funny",
-    artists: "John Doe, Jane Doe",
-    numberPeople: 100,
-    eventDate: "20th Oct",
-    ticket: "#EE234",
-    eventTime: "Current",
-  },
-
-  {
-    id: 2,
-    eventTitle: "Cool Event Name",
-    venueName: "Party",
-    eventDetails: "Friendly, Foodless, Funny",
-    artists: "John Doe, Jane Doe",
-    numberPeople: 100,
-    eventDate: "20th Oct",
-    ticket: "#EE234",
-    eventTime: "Past",
-  },
-
-  {
-    id: 3,
-    eventTitle: "Cool Event Name",
-    venueName: "Party",
-    eventDetails: "Friendly, Foodless, Funny",
-    artists: "John Doe, Jane Doe",
-    numberPeople: 100,
-    eventDate: "20th Oct",
-    ticket: "#EE234",
-    eventTime: "Current",
-  },
-
-  {
-    id: 4,
-    eventTitle: "Cool Event Name",
-    venueName: "Party",
-    artists: "John Doe, Jane Doe",
-    numberPeople: 100,
-    eventDate: "20th Oct",
-    ticket: "#EE234",
-    eventTime: "Past",
-  },
-];
+import axios from "axios";
 
 const Events = () => {
   const [basicActive, setBasicActive] = useState("tab1");
   const navigate = useNavigate();
+
+  const dateObj = new Date();
+  const month = dateObj.getUTCMonth() + 1; // months from 1-12
+  const day = dateObj.getUTCDate();
+  const year = dateObj.getUTCFullYear();
+
+  const newDate = year + "-" + month + "-" + day;
+
+  const { data, isPending, error } = useQuery({
+    queryKey: ["eventsCards"],
+    queryFn: async () =>
+      await axios.get(`${import.meta.env.VITE_BASE_URL}/events/${newDate}`),
+  });
 
   const handleBasicClick = (value) => {
     if (value === basicActive) {
       return;
     }
     setBasicActive(value);
+  };
+
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
+
+  const currentEvent = () => {
+    handleBasicClick("tab1");
+  };
+
+  const pastEvent = () => {
+    handleBasicClick("tab2");
   };
 
   return (
@@ -92,7 +70,7 @@ const Events = () => {
           <div className="mb-3">
             <TETabs className="tetabs">
               <TETabsItem
-                onClick={() => handleBasicClick("tab1")}
+                onClick={currentEvent}
                 active={basicActive === "tab1"}
                 className="tag-link relative"
               >
@@ -102,7 +80,7 @@ const Events = () => {
                 </div>
               </TETabsItem>
               <TETabsItem
-                onClick={() => handleBasicClick("tab2")}
+                onClick={pastEvent}
                 active={basicActive === "tab2"}
                 className="tag-link"
               >
@@ -119,19 +97,19 @@ const Events = () => {
               placeholder="Search events"
               type="text"
             />
-            <HiMiniMagnifyingGlass className="absolute top-2 left-3 text-secondary-colour size-6" />
+            <FaMagnifyingGlass className="absolute top-2 left-3 text-secondary-colour size-6" />
           </div>
         </div>
       </div>
 
       <TETabsContent>
         <TETabsPane show={basicActive === "tab1"}>
-          {events.map((event) => {
+          {data?.data?.current.map((event) => {
             return <CardEvent key={event?.id} {...event} />;
           })}
         </TETabsPane>
         <TETabsPane show={basicActive === "tab2"}>
-          {events.map((event) => {
+          {data?.data?.past.map((event) => {
             return <CardEvent key={event?.id} {...event} />;
           })}
         </TETabsPane>

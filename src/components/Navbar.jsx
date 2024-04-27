@@ -64,8 +64,8 @@ const Navbar = () => {
               </Link>
             </div>
 
-            <div className="flex justify-between items-center gap-4">
-              <div className="flex items-center gap-3">
+            <div className="flex flex-col justify-between gap-2">
+              <div className="flex items-center">
                 <div className="flex justify-center items-center w-12 h-12 bg-white shadow-black/60 shadow-lg rounded-full">
                   <img
                     loading="lazy"
@@ -86,11 +86,12 @@ const Navbar = () => {
               </div>
 
               <div>
-                <button type="button">
-                  <PiSignOutBold
-                    onClick={handleLogOut}
-                    className="size-5 text-secondary-colour hover:text-tertiary-colour animation-fade"
-                  />
+                <button
+                  onClick={handleLogOut}
+                  className="bg-tertiary-colour hover:bg-red-600 hover:text-white animation-fade flex justify-center py-1 rounded-md gap-2 items-center text-tertiary-colour border border-tertiary-colour w-full text-center"
+                  type="button"
+                >
+                  Sign Out
                 </button>
               </div>
             </div>
