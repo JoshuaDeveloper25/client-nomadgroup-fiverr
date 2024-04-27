@@ -22,7 +22,7 @@ body {
 }
 
 .css-1wvake5 {
-  border-right: 2px solid #CDA184 !important;
+  border-right: 2px solid #cda184 !important;
 }
 
 /* Styles from tabs of the events */
@@ -32,7 +32,7 @@ body {
 }
 
 .border-primary {
-  border-bottom: 2px solid #CDA184 !important;
+  border-bottom: 2px solid #cda184 !important;
 }
 
 .tetabs {
@@ -40,9 +40,15 @@ body {
 }
 
 .bg-primary-colour {
-  background: #A85A26!important;
+  background: #a85a26 !important;
 }
 
 .bg-primary-colour-hover:hover {
-  background: rgba(185, 98, 40, 0.38)!important;
+  background: rgba(185, 98, 40, 0.38) !important;
+}
+
+.Toastify__toast--stacked {
+  position: fixed !important;
+  height: 100% !important;
+  top: 0 !important;
 }

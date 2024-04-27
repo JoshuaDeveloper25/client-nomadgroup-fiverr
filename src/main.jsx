@@ -103,7 +103,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AppProvider>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-        <ToastContainer stacked />
+        <ToastContainer position="top-center" stacked />
       </QueryClientProvider>
     </AppProvider>
   </>
