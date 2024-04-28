@@ -2,13 +2,17 @@ import logoGuestWise from "../../img/logo-guest-wise.png";
 import { useMutation } from "@tanstack/react-query";
 import getFastApiErrors from "../../utils/getFastApiErrors";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import AppContext from "../../context/AppProvider";
 import { toast } from "react-toastify";
 import axios from "axios";
 
+import { FaEye } from "react-icons/fa";
+import { IoEyeOff } from "react-icons/io5";
+
 const LogIn = () => {
   const { setUserInfo } = useContext(AppContext);
+  const [showPassword, setShowPassword] = useState(false);
 
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
@@ -89,14 +93,30 @@ const LogIn = () => {
 
               <div>
                 <label htmlFor="password">Password</label>
-                <input
-                  ref={passwordRef}
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="********"
-                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 font-normal transition-all border"
-                />
+                <div className="relative">
+                  <input
+                    ref={passwordRef}
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    className="outline-primary-color h-full w-full rounded-sm px-3 py-3 font-normal transition-all border"
+                  />
+
+                  <div className="absolute top-3 right-6">
+                    {" "}
+                    {showPassword ? (
+                      <IoEyeOff
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="size-6 cursor-pointer hover:opacity-60 animation-fade"
+                      />
+                    ) : (
+                      <FaEye
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="size-6 cursor-pointer hover:opacity-60 animation-fade"
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 

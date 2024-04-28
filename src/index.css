@@ -47,12 +47,8 @@ body {
   background: rgba(185, 98, 40, 0.38) !important;
 }
 
-.Toastify__toast--stacked {
-  position: fixed !important;
-  height: 100% !important;
-  top: 0 !important;
-}
 
+/*  */
 @media screen and (max-width: 599px) {
   input, select, textarea {
     font-size: 16px;

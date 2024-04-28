@@ -2,11 +2,16 @@ import logoGuestWise from "../../img/logo-guest-wise.png";
 import { useMutation } from "@tanstack/react-query";
 import getFastApiErrors from "../../utils/getFastApiErrors";
 import { Link, useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useRef } from "react";
+
+import { FaEye } from "react-icons/fa";
+import { IoEyeOff } from "react-icons/io5";
 
 const SignUp = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordAttempt, setShowPasswordAttempt] = useState(false);
   const navigate = useNavigate();
   const emailRef = useRef();
 
@@ -94,24 +99,61 @@ const SignUp = () => {
 
               <div>
                 <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="********"
-                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 font-normal transition-all border"
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="********"
+                    className="outline-primary-color h-full w-full rounded-sm px-3 py-3 font-normal transition-all border"
+                  />
+                  <div className="absolute top-3 right-6">
+                    {" "}
+                    {showPassword ? (
+                      <IoEyeOff
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="size-6 cursor-pointer hover:opacity-60 animation-fade"
+                      />
+                    ) : (
+                      <FaEye
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="size-6 cursor-pointer hover:opacity-60 animation-fade"
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
 
               <div>
                 <label htmlFor="passwordAttempt">Repeat Password</label>
-                <input
-                  id="passwordAttempt"
-                  name="passwordAttempt"
-                  type="password"
-                  placeholder="********"
-                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 font-normal transition-all border"
-                />
+                <div className="relative">
+                  <input
+                    id="passwordAttempt"
+                    name="passwordAttempt"
+                    type={showPasswordAttempt ? "text" : "password"}
+                    placeholder="********"
+                    className="outline-primary-color h-full w-full rounded-sm px-3 py-3 font-normal transition-all border"
+                  />
+
+                  <div className="absolute top-3 right-6">
+                    {" "}
+                    {showPasswordAttempt ? (
+                      <IoEyeOff
+                        onClick={() =>
+                          setShowPasswordAttempt(!showPasswordAttempt)
+                        }
+                        className="size-6 cursor-pointer hover:opacity-60 animation-fade"
+                      />
+                    ) : (
+                      <FaEye
+                        onClick={() =>
+                          setShowPasswordAttempt(!showPasswordAttempt)
+                        }
+                        className="size-6 cursor-pointer hover:opacity-60 animation-fade"
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
