@@ -24,8 +24,8 @@ const Navbar = () => {
   };
 
   return userInfo?.access_token ? (
-    <header className="flex-1 h-full sticky top-0">
-      <div className="flex h-[100vh]">
+    <header className="flex-1 h-full sticky top-0 z-50">
+      <div className="flex h-[100vh] ">
         <Sidebar
           onBackdropClick={() => setToggled(false)}
           toggled={toggled}
@@ -34,7 +34,7 @@ const Navbar = () => {
         >
           <div className="flex flex-col justify-between h-full mx-5 py-6">
             <div>
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between ">
                 <Link to={`/`}>
                   <img
                     loading="lazy"

@@ -27,6 +27,7 @@ import PublicRoutes from "./auth/PublicRoutes";
 import PrivateRoutes from "./auth/PrivateRoutes";
 import CreateEvent from "./pages/CreateEvent/CreateEvent";
 import CheckEmailSignUp from "./pages/SignUp/components/CheckEmailSignUp";
+import CreateGuest from "./pages/CreateGuest/CreateGuest";
 
 // --> Pages
 const router = createBrowserRouter([
@@ -71,6 +72,11 @@ const router = createBrowserRouter([
       {
         element: <CheckEmailSignUp />,
         path: "/sign-up-check-email",
+      },
+
+      {
+        element: <CreateGuest />,
+        path: "/create-guest",
       },
     ],
   },
