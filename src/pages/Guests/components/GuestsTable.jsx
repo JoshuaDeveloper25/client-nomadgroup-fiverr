@@ -1,6 +1,8 @@
-import { PiNotePencil } from "react-icons/pi";
+import { PiNotePencil, PiUserList } from "react-icons/pi";
 import { Table } from "../../../components/Table";
 import { Link } from "react-router-dom";
+import { RiContactsBook3Line } from "react-icons/ri";
+import { TfiTime } from "react-icons/tfi";
 
 const GuestsTable = ({ guests, setFiltering, filtering }) => {
   return (
@@ -10,28 +12,41 @@ const GuestsTable = ({ guests, setFiltering, filtering }) => {
       filtering={filtering}
       columns={[
         {
-          Header: `Check In`,
-          accessorKey: "checkIn",
-        },
-
-        {
-          header: "Name",
+          id: "col1",
+          header: () => (
+            <div className="flex items-center gap-2">
+              <RiContactsBook3Line className="size-6" />
+              <h3 className="text-sm font-semibold">Name</h3>
+            </div>
+          ),
           accessorKey: "name",
         },
 
         {
-          header: "Credentials",
+          id: "col2",
           accessorKey: "credentials",
+          header: () => (
+            <div className="flex items-center gap-2">
+              <PiUserList className="size-6" />
+              <h3 className="text-sm font-semibold">Credentials</h3>
+            </div>
+          ),
         },
 
         {
-          header: "Last updated",
+          id: "col3",
+          header: () => (
+            <div className="flex items-center gap-2">
+              <TfiTime className="size-6" />
+              <h3 className="text-sm font-semibold">Last updated</h3>
+            </div>
+          ),
           accessorKey: "lastUpdated",
         },
 
         {
-          header: "Acción",
-
+          id: "col4",
+          header: "Actions",
           cell: (info) => {
             const value = info.cell.row.original;
             console.log(value);
@@ -40,14 +55,14 @@ const GuestsTable = ({ guests, setFiltering, filtering }) => {
               <>
                 <Link
                   to={`/perfil/${value._id}`}
-                  className="bg-red-500 me-2 text-white px-3 py-2 rounded font-bold text-nowrap"
+                  className="bg-red-500 me-2 text-white px-3 py-2 rounded font-bold hover:bg-red-700 animation-fade text-nowrap"
                 >
                   Delete
                 </Link>
 
                 <Link
                   to={`/perfil/${value._id}`}
-                  className="bg-blue-600 text-white px-3 py-2 rounded font-bold text-nowrap"
+                  className="bg-blue-500 text-white px-3 py-2 rounded font-bold hover:bg-blue-700 animation-fade text-nowrap"
                 >
                   Edit
                 </Link>

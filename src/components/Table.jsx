@@ -40,7 +40,7 @@ export const Table = ({ columns, data, filtering, setFiltering }) => {
                     className="table-cell cursor-pointer"
                     onClick={header.column.getToggleSortingHandler()}
                   >
-                    <div className="flex justify-between gap-2 pr-2">
+                    <div className="flex text-secondary-900 justify-between gap-2 pr-2">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -66,7 +66,7 @@ export const Table = ({ columns, data, filtering, setFiltering }) => {
                 className={`border-b border-b-gray-300 ${row.id}`}
               >
                 {row.getVisibleCells()?.map((cell) => (
-                  <td key={cell.id} className={` py-3 px-3`}>
+                  <td key={cell.id} className={`text-sm text-secondary-800 py-3 `}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

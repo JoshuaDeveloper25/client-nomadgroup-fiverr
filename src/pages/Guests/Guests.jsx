@@ -7,7 +7,6 @@ import GuestsTable from "./components/GuestsTable";
 
 const guests = [
   {
-    checkIn: "yes",
     name: "Joshua",
     credentials: "Agent",
     lastUpdated: "24 Nov 2022, 4:45 PM",
@@ -31,7 +30,7 @@ const Guests = () => {
   };
 
   return (
-    <section className="flex max-[960px]:flex-col min-[960px]:flex-row">
+    <section>
       <article className="flex-[50%] lg:w-auto w-full min-[960px]:border-e-2 border-b-2 h-svh container-page md:ps-1 ps-2 md:pe-10 pe-2">
         <div className="flex flex-col sm:flex-row justify-between sm:gap-6 gap-2 md:mt-3 mt-14">
           <div>
@@ -74,7 +73,7 @@ const Guests = () => {
           <div className="flex-1 flex items-end justify-end">
             <div className="relative sm:max-w-52 max-w-full">
               <input
-                className=" outline-primary-color border py-2 px-10 w-full rounded"
+                className="outline-primary-color border py-2 px-10 w-full rounded"
                 placeholder="Search events"
                 onChange={(e) => setFiltering(e.target.value)}
                 value={filtering}
