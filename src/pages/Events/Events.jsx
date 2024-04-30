@@ -35,10 +35,6 @@ const Events = () => {
     setBasicActive(value);
   };
 
-  if (isPending) {
-    return <p>Loading...</p>;
-  }
-
   const currentEvent = () => {
     handleBasicClick("tab1");
   };
@@ -46,6 +42,10 @@ const Events = () => {
   const pastEvent = () => {
     handleBasicClick("tab2");
   };
+
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <section className="container-page md:ps-1 ps-2 md:pe-10 pe-2">
@@ -75,7 +75,7 @@ const Events = () => {
                 className="tag-link relative"
               >
                 Current{" "}
-                <div className="h-4 w-4 rounded-full flex justify-center items-center bg-tertiary-color text-white absolute top-4 right-1">
+                <div className="h-4 w-4 rounded-full flex justify-center items-center bg-tertiary-colour text-white absolute top-4 right-1">
                   <h4 className="text-[.7rem]">1</h4>
                 </div>
               </TETabsItem>
@@ -104,14 +104,27 @@ const Events = () => {
 
       <TETabsContent>
         <TETabsPane show={basicActive === "tab1"}>
-          {data?.data?.current.map((event) => {
-            return <CardEvent key={event?.id} {...event} />;
-          })}
+          {data?.data?.current?.length < 1 ? (
+            <div>
+              <h2>There's no current events for the moment...</h2>
+            </div>
+          ) : (
+            data?.data?.current.map((event) => {
+              return <CardEvent key={event?.id} {...event} />;
+            })
+          )}
         </TETabsPane>
+
         <TETabsPane show={basicActive === "tab2"}>
-          {data?.data?.past.map((event) => {
-            return <CardEvent key={event?.id} {...event} />;
-          })}
+          {data?.data?.past?.length < 1 ? (
+            <div>
+              <h2>There's no past events for the moment...</h2>
+            </div>
+          ) : (
+            data?.data?.current.map((event) => {
+              return <CardEvent key={event?.id} {...event} />;
+            })
+          )}
         </TETabsPane>
       </TETabsContent>
     </section>

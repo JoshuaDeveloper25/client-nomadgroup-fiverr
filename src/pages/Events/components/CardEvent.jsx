@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 const CardEvent = ({
   id,
   eventName,
@@ -6,8 +8,13 @@ const CardEvent = ({
   eventNotes,
   eventDate,
 }) => {
+  const navigate = useNavigate();
+
   return (
-    <article className="shadow-lg p-5 w-full rounded-md">
+    <article
+      className="shadow-lg p-5 w-full rounded-md cursor-pointer"
+      onClick={() => navigate("/event-details")}
+    >
       <div className="flex justify-between">
         <h3 className="font-bold text-xl">{eventName}</h3>
 
