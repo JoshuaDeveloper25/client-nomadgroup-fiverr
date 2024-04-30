@@ -1,11 +1,11 @@
 import { Sidebar } from "react-pro-sidebar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import AppContext from "../context/AppProvider";
 
 import logoGuestWise from "../img/logo-guest-wise.png";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { PiSignOutBold } from "react-icons/pi";
+import { FaPeopleGroup } from "react-icons/fa6";
 import { LuBookMinus } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -52,16 +52,37 @@ const Navbar = () => {
                 </button>
               </div>
 
-              <Link to={`/events`}>
-                <div className="flex bg-primary-colour-hover gap-3 items-center text-white bg-primary-colour py-3 px-2 hover:bg-primary-colour/55 animation-fade mt-20 rounded-sm">
-                  <div>
-                    <LuBookMinus className="size-6" />
-                  </div>
-                  <div>
-                    <h3>Events</h3>
-                  </div>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex gap-3 items-center text-white bg-secondary-colour py-3 px-2 animation-fade mt-20 rounded-sm"
+                    : "flex bg-primary-colour-hover gap-3 items-center text-white bg-primary-colour py-3 px-2 hover:bg-primary-colour/55 animation-fade mt-20 rounded-sm"
+                }
+                to={`/events`}
+              >
+                <div>
+                  <LuBookMinus className="size-6" />
                 </div>
-              </Link>
+                <div>
+                  <h3>Events</h3>
+                </div>
+              </NavLink>
+
+              <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex gap-3 items-center text-white bg-secondary-colour py-3 px-2 animation-fade mt-4 rounded-sm"
+                    : "flex bg-primary-colour-hover gap-3 items-center text-white bg-primary-colour py-3 px-2 hover:bg-primary-colour/55 animation-fade mt-4 rounded-sm"
+                }
+                to={`/guests`}
+              >
+                <div>
+                  <FaPeopleGroup className="size-6" />
+                </div>
+                <div>
+                  <h3>Guests</h3>
+                </div>
+              </NavLink>
             </div>
 
             <div className="flex flex-col justify-between gap-2">

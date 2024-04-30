@@ -75,8 +75,8 @@ const Events = () => {
                 className="tag-link relative"
               >
                 Current{" "}
-                <div className="h-4 w-4 rounded-full flex justify-center items-center bg-tertiary-colour text-white absolute top-4 right-1">
-                  <h4 className="text-[.7rem]">1</h4>
+                <div className="rounded-full px-[.3rem] py-[.1rem] flex justify-center items-center bg-tertiary-colour text-white absolute top-1 right-1">
+                  <h4 className="text-[.63rem]">{data?.data?.current?.length}</h4>
                 </div>
               </TETabsItem>
               <TETabsItem

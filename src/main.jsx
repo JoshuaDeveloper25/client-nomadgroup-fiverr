@@ -29,6 +29,7 @@ import CreateEvent from "./pages/CreateEvent/CreateEvent";
 import CheckEmailSignUp from "./pages/SignUp/components/CheckEmailSignUp";
 import CreateGuest from "./pages/CreateGuest/CreateGuest";
 import EventDetails from "./pages/EventDetails/EventDetails";
+import Guests from "./pages/Guests/Guests";
 
 // --> Pages
 const router = createBrowserRouter([
@@ -90,12 +91,17 @@ const router = createBrowserRouter([
 
           {
             element: <EventDetails />,
-            path: "/event-details"
+            path: "/event-details",
           },
 
           {
             element: <CreateEvent />,
             path: "/create-event",
+          },
+
+          {
+            element: <Guests />,
+            path: "/guests",
           },
 
           {
