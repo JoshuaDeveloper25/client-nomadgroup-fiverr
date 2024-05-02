@@ -3,17 +3,8 @@ import EventDetailsTable from "./components/EventDetailsTable";
 import { TETabs, TETabsItem } from "tw-elements-react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-
-const guests = [
-  {
-    checkIn: "yes",
-    name: "Joshua",
-    credentials: "Agent",
-    lastUpdated: "24 Nov 2022, 4:45 PM",
-  },
-];
 
 const EventDetails = () => {
   const [basicActive, setBasicActive] = useState("tab1");
@@ -42,9 +33,7 @@ const EventDetails = () => {
     handleBasicClick("tab1");
   };
 
-  if (isPending) {
-    return <p>Loading...</p>;
-  }
+  console.log(data?.data?.guests);
 
   return (
     <section className="flex max-[960px]:flex-col min-[960px]:flex-row">
@@ -58,7 +47,7 @@ const EventDetails = () => {
             <button
               className="text-white bg-primary-colour bg-primary-colour-hover animation-fade rounded px-2 py-2"
               type="button"
-              onClick={() => navigate("/create-guest")}
+              onClick={() => navigate(`/create-guest/?id=${data?.data?.id}`)}
             >
               Create Guests
             </button>
@@ -106,7 +95,7 @@ const EventDetails = () => {
 
         {/* Table */}
         <EventDetailsTable
-          guests={guests}
+          guests={data?.data?.guests}
           setFiltering={setFiltering}
           filtering={filtering}
         />
@@ -149,45 +138,66 @@ const ShortcutsEvents = () => {
       await axios.get(`${import.meta.env.VITE_BASE_URL}/events/${newDate}`),
   });
 
-  if (isPending) {
-    return <p>Loading...</p>;
-  }
+  return isPending ? (
+    <div className="shadow-xl mb-3 rounded-md p-4 max-w-full w-full mx-auto">
+      <div className="animate-pulse flex space-x-4">
+        <div className="flex-1 space-y-6 py-1">
+          <div className="flex items-center justify-between gap-2">
+            <div className="h-3 w-20 bg-primary-colour rounded"></div>
 
-  return data?.data?.current?.map((currentEvent) => (
-    <div
-      onClick={() => navigate(`/event-details?id=${currentEvent?.id}`)}
-      key={currentEvent?.id}
-      className={`${
-        +searchParams.get("id") === currentEvent?.id
-          ? "bg-primary-colour text-white"
-          : null
-      } shadow-lg p-3 w-full text-secondary-colour rounded-md cursor-pointer animation-fade`}
-    >
-      <div className="flex justify-between gap-2 items-center">
-        <h3 className="font-bold text-md">{currentEvent?.eventName}</h3>
+            <div className="h-2 bg-primary-colour rounded w-14"></div>
+          </div>
 
-        <h4 className="font-semibold text-xs">{currentEvent?.eventDate}</h4>
-      </div>
+          <div className="space-y-3">
+            <div className="h-2 w-28 bg-primary-colour rounded"></div>
+            <div className="h-2 w-28 bg-primary-colour rounded"></div>
+            <div className="h-2 w-28 bg-primary-colour rounded"></div>
 
-      <div className="mt-2">
-        <h4 className="text-sm">Cool event details:</h4>
-        <h4 className="text-sm">Venue Name: {currentEvent?.venue}</h4>
-        <h4 className="text-sm">Artists, Etc:</h4>
-      </div>
-
-      <div className="flex items-center gap-4 mt-3">
-        <h3
-          className={`${
-            +searchParams.get("id") === currentEvent?.id ? "text-white" : null
-          } bg-secondary-color/15 text-sm px-2 border border-tertiary-color text-tertiary-colour rounded-2xl`}
-        >
-          Coming Up!
-        </h3>
-
-        <h3 className="bg-secondary-color/15 text-sm px-2 border border-secondary-color rounded-2xl">
-          {`#EE234`}
-        </h3>
+            <div className="flex gap-3">
+              <div className="h-2 w-12 bg-primary-colour rounded"></div>
+              <div className="h-2 w-12 bg-primary-colour rounded"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  ));
+  ) : (
+    data?.data?.current?.map((currentEvent) => (
+      <div
+        onClick={() => navigate(`/event-details?id=${currentEvent?.id}`)}
+        key={currentEvent?.id}
+        className={`${
+          +searchParams.get("id") === currentEvent?.id
+            ? "bg-primary-colour text-white"
+            : null
+        } shadow-lg p-3 w-full text-secondary-colour rounded-md cursor-pointer animation-fade`}
+      >
+        <div className="flex justify-between gap-2 items-center">
+          <h3 className="font-bold text-md">{currentEvent?.eventName}</h3>
+
+          <h4 className="font-semibold text-xs">{currentEvent?.eventDate}</h4>
+        </div>
+
+        <div className="mt-2">
+          <h4 className="text-sm">Cool event details:</h4>
+          <h4 className="text-sm">Venue Name: {currentEvent?.venue}</h4>
+          <h4 className="text-sm">Artists, Etc:</h4>
+        </div>
+
+        <div className="flex items-center gap-4 mt-3">
+          <h3
+            className={`${
+              +searchParams.get("id") === currentEvent?.id ? "text-white" : null
+            } bg-secondary-color/15 text-sm px-2 border border-tertiary-color text-tertiary-colour rounded-2xl`}
+          >
+            Coming Up!
+          </h3>
+
+          <h3 className="bg-secondary-color/15 text-sm px-2 border border-secondary-color rounded-2xl">
+            {`#EE234`}
+          </h3>
+        </div>
+      </div>
+    ))
+  );
 };

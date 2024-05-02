@@ -50,10 +50,6 @@ const Events = () => {
     handleBasicClick("tab2");
   };
 
-  if (isPending) {
-    return <p>Loading...</p>;
-  }
-
   console.log(data)
 
   return (

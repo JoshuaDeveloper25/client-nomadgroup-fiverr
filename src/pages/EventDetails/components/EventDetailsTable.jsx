@@ -4,7 +4,7 @@ import { PiNotePencil } from "react-icons/pi";
 import { PiUserList } from "react-icons/pi";
 import { TfiTime } from "react-icons/tfi";
 
-const EventDetailsTable = ({ guests, setFiltering, filtering }) => {
+const EventDetailsTable = ({ guests = [], setFiltering, filtering }) => {
   return (
     <Table
       data={guests}
@@ -59,7 +59,19 @@ const EventDetailsTable = ({ guests, setFiltering, filtering }) => {
               <h3 className="text-sm font-semibold">Name</h3>
             </div>
           ),
-          accessorKey: "name",
+          cell: (row) => {
+            return (
+              <div>
+                <h3 className="text-sm">
+                  {row?.cell?.row?.original?.guestName}
+                </h3>
+
+                <h3 className="text-xs text-secondary-600">
+                  {row?.cell?.row?.original?.guestEmail}
+                </h3>
+              </div>
+            );
+          },
         },
 
         {
@@ -73,7 +85,9 @@ const EventDetailsTable = ({ guests, setFiltering, filtering }) => {
           cell: (row) => {
             return (
               <div className="border border-fourth-colour text-fourth-colour inline-block rounded-full px-2">
-                <h3 className="text-sm">Agent</h3>
+                <h3 className="text-sm">
+                  {row?.cell?.row?.original?.guestCredential}
+                </h3>
               </div>
             );
           },

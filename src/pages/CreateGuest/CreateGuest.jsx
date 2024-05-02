@@ -1,21 +1,26 @@
 import logoGuestWise from "../../img/logo-guest-wise.png";
 import { useMutation } from "@tanstack/react-query";
 import getFastApiErrors from "../../utils/getFastApiErrors";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 const CreateGuest = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (guestInfo) => {
-      return axios.post(`${import.meta.env.VITE_BASE_URL}/events/`, guestInfo);
+      return axios.post(
+        `${import.meta.env.VITE_BASE_URL}/guests/${+searchParams.get("id")}`,
+        guestInfo
+      );
     },
     onSuccess: (res) => {
       toast.success("Successfully Created!");
-      navigate("/events");
+      navigate(`/event-details?id=${+searchParams.get("id")}`);
     },
+    // onError: (err) => console.log(err),
     onError: (err) => toast.error(getFastApiErrors(err)),
   });
 
@@ -26,6 +31,8 @@ const CreateGuest = () => {
       guestName: e?.target?.guestName?.value.trim(),
       guestEmail: e?.target?.guestEmail?.value.trim(),
       guestPhone: e?.target?.guestPhone.value.trim(),
+      partySize: e?.target?.partySize.value.trim(),
+      arrivalTime: e?.target?.arrivalTime.value.trim(),
       guestCredential: e?.target?.guestCredential.value.trim(),
     };
 
@@ -34,6 +41,8 @@ const CreateGuest = () => {
         userInfo?.guestName,
         userInfo?.guestEmail,
         userInfo?.guestPhone,
+        userInfo?.partySize,
+        userInfo?.arrivalTime,
         userInfo?.guestCredential,
       ].includes("")
     ) {
@@ -44,6 +53,8 @@ const CreateGuest = () => {
       guestName: userInfo?.guestName,
       guestEmail: userInfo?.guestEmail,
       guestPhone: userInfo?.guestPhone,
+      partySize: userInfo?.partySize,
+      arrivalTime: userInfo?.arrivalTime,
       guestCredential: userInfo?.guestCredential,
     });
   };
@@ -65,7 +76,7 @@ const CreateGuest = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="max-w-sm mx-auto mb-2">
-            <div className="flex flex-col gap-6 mb-1">
+            <div className="flex flex-col gap-3 mb-1">
               <div>
                 <label htmlFor="guestName">Guest Name</label>
                 <input
@@ -99,13 +110,42 @@ const CreateGuest = () => {
               </div>
 
               <div>
-                <label htmlFor="guestCredential">Guest Credential</label>
-                <textarea
-                  id="guestCredential"
-                  name="guestCredential"
-                  placeholder="Credential"
-                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
+                <label htmlFor="partySize">Party Size</label>
+                <input
+                  id="partySize"
+                  name="partySize"
+                  placeholder="Size"
+                  type="number"
+                  className="outline-primary-color w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
                 />
+              </div>
+
+              <div>
+                <label htmlFor="arrivalTime">Arrival Time</label>
+                <input
+                  id="arrivalTime"
+                  name="arrivalTime"
+                  placeholder="Time"
+                  type="time"
+                  className="outline-primary-color w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="guestCredential">Guest Credential</label>
+
+                <select
+                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
+                  name="guestCredential"
+                  id="guestCredential"
+                >
+                  <option>{`None (Default)`}</option>
+                  <option value={"a"}>{`A - Limited Access`}</option>
+                  <option value={"aa"}>{`AA - Intermediate Access`}</option>
+                  <option value={"aaa"}>{`AAA - All Access`}</option>
+                  <option value={"vip"}>{`VIP`}</option>
+                  <option value={"vvip"}>{`VVIP`}</option>
+                </select>
               </div>
             </div>
 
