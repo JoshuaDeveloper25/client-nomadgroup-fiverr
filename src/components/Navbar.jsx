@@ -35,7 +35,7 @@ const Navbar = () => {
           <div className="flex flex-col justify-between h-full mx-5 py-6">
             <div>
               <div className="flex items-start justify-between ">
-                <Link to={`/`}>
+                <Link to={`/`} onClick={() => setToggled(!toggled)}>
                   <img
                     loading="lazy"
                     decoding="async"
@@ -59,6 +59,7 @@ const Navbar = () => {
                     : "flex bg-primary-colour-hover gap-3 items-center text-white bg-primary-colour py-3 px-2 hover:bg-primary-colour/55 animation-fade mt-20 rounded-sm"
                 }
                 to={`/events`}
+                onClick={() => setToggled(!toggled)}
               >
                 <div>
                   <LuBookMinus className="size-6" />
@@ -75,6 +76,7 @@ const Navbar = () => {
                     : "flex bg-primary-colour-hover gap-3 items-center text-white bg-primary-colour py-3 px-2 hover:bg-primary-colour/55 animation-fade mt-4 rounded-sm"
                 }
                 to={`/guests`}
+                onClick={() => setToggled(!toggled)}
               >
                 <div>
                   <FaPeopleGroup className="size-6" />
@@ -122,10 +124,10 @@ const Navbar = () => {
         <main>
           <div className="pt-3 ps-4">
             <button
-              className="fixed left-6 top-3 md:hidden sb-button"
+              className="fixed left-6 top-3 p-1 md:hidden sb-button rounded-md text-white bg-primary-colour"
               onClick={() => setToggled(!toggled)}
             >
-              <GiHamburgerMenu className="size-8" />
+              <GiHamburgerMenu className="size-7" />
             </button>
           </div>
         </main>

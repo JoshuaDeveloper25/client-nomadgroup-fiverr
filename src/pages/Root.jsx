@@ -8,7 +8,7 @@ const Root = () => {
   const { userInfo } = useContext(AppContext);
 
   return (
-    <div className="flex lg:gap-5">
+    <div className="relative flex lg:gap-5">
       {userInfo?.access_token ? <Navbar /> : null}
 
       <div className="md:flex-[70%] flex-[100%] min-h-full">

@@ -4,6 +4,8 @@ import axios from "axios";
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
+  const [currentEvents, setCurrentEvents] = useState([]);
+
   const [userInfo, setUserInfo] = useState(
     JSON?.parse(localStorage?.getItem("userInfo")) || {}
   );
@@ -13,7 +15,9 @@ const AppProvider = ({ children }) => {
   }`;
 
   return (
-    <AppContext.Provider value={{ userInfo, setUserInfo }}>
+    <AppContext.Provider
+      value={{ userInfo, setUserInfo, currentEvents, setCurrentEvents }}
+    >
       {children}
     </AppContext.Provider>
   );

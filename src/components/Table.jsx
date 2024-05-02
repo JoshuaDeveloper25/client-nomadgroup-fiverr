@@ -28,8 +28,8 @@ export const Table = ({ columns, data, filtering, setFiltering }) => {
 
   return (
     <div className="mt-4">
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border-spacing-0">
+      <div className="overflow-x-auto min-w-full max-w-[10rem]">
+        <table className="w-full text-nowrap border-collapse border-spacing-0">
           {/* Head */}
           <thead className="bg-slate-50">
             {table.getHeaderGroups()?.map((headerGroup) => (
@@ -40,7 +40,7 @@ export const Table = ({ columns, data, filtering, setFiltering }) => {
                     className="table-cell cursor-pointer"
                     onClick={header.column.getToggleSortingHandler()}
                   >
-                    <div className="flex text-secondary-900 justify-between gap-2 pr-2">
+                    <div className="flex px-2 text-secondary-900 justify-between gap-2 pr-2">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -66,7 +66,7 @@ export const Table = ({ columns, data, filtering, setFiltering }) => {
                 className={`border-b border-b-gray-300 ${row.id}`}
               >
                 {row.getVisibleCells()?.map((cell) => (
-                  <td key={cell.id} className={`text-sm text-secondary-800 py-3 `}>
+                  <td key={cell.id} className={`text-sm px-2 text-secondary-800 py-3 `}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

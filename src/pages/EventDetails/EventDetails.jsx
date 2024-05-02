@@ -1,8 +1,10 @@
+import { useNavigate, useSearchParams } from "react-router-dom";
+import EventDetailsTable from "./components/EventDetailsTable";
 import { TETabs, TETabsItem } from "tw-elements-react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import EventDetailsTable from "./components/EventDetailsTable";
+import { useQuery } from "@tanstack/react-query";
+import { useContext, useState } from "react";
+import axios from "axios";
 
 const guests = [
   {
@@ -16,7 +18,18 @@ const guests = [
 const EventDetails = () => {
   const [basicActive, setBasicActive] = useState("tab1");
   const [filtering, setFiltering] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const { data, isPending, error } = useQuery({
+    queryKey: ["event-details", +searchParams.get("id")],
+    queryFn: async () =>
+      await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/events/get-event/${+searchParams.get(
+          "id"
+        )}`
+      ),
+  });
 
   const handleBasicClick = (value) => {
     if (value === basicActive) {
@@ -29,19 +42,23 @@ const EventDetails = () => {
     handleBasicClick("tab1");
   };
 
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <section className="flex max-[960px]:flex-col min-[960px]:flex-row">
-      <article className="flex-[50%] lg:w-auto w-full min-[960px]:border-e-2 border-b-2 h-svh container-page md:ps-1 ps-2 md:pe-10 pe-2">
+      <article className="flex-[50%] lg:w-auto w-full min-[960px]:border-e-2 max-[960px]:border-b-2 h-svh container-page md:ps-1 ps-2 md:pe-10 pe-2">
         <div className="flex flex-col sm:flex-row justify-between sm:gap-6 gap-2 md:mt-3 mt-14">
           <div>
-            <h2 className="text-3xl">Cool Event Name</h2>
+            <h2 className="text-3xl">{data?.data?.eventName}</h2>
           </div>
 
           <div className="flex gap-3">
             <button
               className="text-white bg-primary-colour bg-primary-colour-hover animation-fade rounded px-2 py-2"
               type="button"
-              onClick={() => navigate('/create-guest')}
+              onClick={() => navigate("/create-guest")}
             >
               Create Guests
             </button>
@@ -66,8 +83,8 @@ const EventDetails = () => {
                 >
                   Current{" "}
                   <div className="rounded-full px-[.3rem] py-[.1rem] flex justify-center items-center bg-tertiary-colour text-white absolute top-1 right-1">
-                  <h4 className="text-[.63rem]">1</h4>
-                </div>
+                    <h4 className="text-[.63rem]">1</h4>
+                  </div>
                 </TETabsItem>
               </TETabs>
             </div>
@@ -105,37 +122,72 @@ const EventDetails = () => {
         </div>
       </article>
 
-      <article className="flex-1 lg:w-auto w-full container-page p-3">
-        <div className="shadow-lg p-3 w-full rounded-md">
-          <div className="flex justify-between gap-2 items-center">
-            <h3 className="font-bold text-md">Old Cool Event Name</h3>
-
-            <h4 className="text-secondary-colour font-semibold text-xs">
-              20th Oct
-            </h4>
-          </div>
-
-          <div className="mt-2">
-            <h4 className="text-secondary-colour text-sm">
-              Cool event details:
-            </h4>
-            <h4 className="text-secondary-colour text-sm">Venue Name:</h4>
-            <h4 className="text-secondary-colour text-sm">Artists, Etc:</h4>
-          </div>
-
-          <div className="flex items-center gap-4 mt-3">
-            <h3 className="bg-secondary-color/15 text-sm px-2 border border-tertiary-color text-tertiary-colour rounded-2xl">
-              Coming Up!
-            </h3>
-
-            <h3 className="bg-secondary-color/15 text-sm px-2 border border-secondary-color rounded-2xl">
-              {`#EE234`}
-            </h3>
-          </div>
-        </div>
+      <article className="flex-1 space-y-2 lg:w-auto w-full container-page p-3 overflow-y-scroll h-svh">
+        <ShortcutsEvents />
       </article>
     </section>
   );
 };
 
 export default EventDetails;
+
+// --> Shortcut Events
+const ShortcutsEvents = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const dateObj = new Date();
+  const month = dateObj.getUTCMonth() + 1; // months from 1-12
+  const day = dateObj.getUTCDate();
+  const year = dateObj.getUTCFullYear();
+
+  const newDate = year + "-" + month + "-" + day;
+
+  const { data, isPending, error } = useQuery({
+    queryKey: ["eventsCards"],
+    queryFn: async () =>
+      await axios.get(`${import.meta.env.VITE_BASE_URL}/events/${newDate}`),
+  });
+
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
+
+  return data?.data?.current?.map((currentEvent) => (
+    <div
+      onClick={() => navigate(`/event-details?id=${currentEvent?.id}`)}
+      key={currentEvent?.id}
+      className={`${
+        +searchParams.get("id") === currentEvent?.id
+          ? "bg-primary-colour text-white"
+          : null
+      } shadow-lg p-3 w-full text-secondary-colour rounded-md cursor-pointer animation-fade`}
+    >
+      <div className="flex justify-between gap-2 items-center">
+        <h3 className="font-bold text-md">{currentEvent?.eventName}</h3>
+
+        <h4 className="font-semibold text-xs">{currentEvent?.eventDate}</h4>
+      </div>
+
+      <div className="mt-2">
+        <h4 className="text-sm">Cool event details:</h4>
+        <h4 className="text-sm">Venue Name: {currentEvent?.venue}</h4>
+        <h4 className="text-sm">Artists, Etc:</h4>
+      </div>
+
+      <div className="flex items-center gap-4 mt-3">
+        <h3
+          className={`${
+            +searchParams.get("id") === currentEvent?.id ? "text-white" : null
+          } bg-secondary-color/15 text-sm px-2 border border-tertiary-color text-tertiary-colour rounded-2xl`}
+        >
+          Coming Up!
+        </h3>
+
+        <h3 className="bg-secondary-color/15 text-sm px-2 border border-secondary-color rounded-2xl">
+          {`#EE234`}
+        </h3>
+      </div>
+    </div>
+  ));
+};

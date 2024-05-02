@@ -2,6 +2,7 @@ import { PiNotePencil, PiUserList } from "react-icons/pi";
 import { Table } from "../../../components/Table";
 import { Link } from "react-router-dom";
 import { RiContactsBook3Line } from "react-icons/ri";
+import { GoChecklist } from "react-icons/go";
 import { TfiTime } from "react-icons/tfi";
 
 const GuestsTable = ({ guests, setFiltering, filtering }) => {
@@ -46,7 +47,12 @@ const GuestsTable = ({ guests, setFiltering, filtering }) => {
 
         {
           id: "col4",
-          header: "Actions",
+          header: () => (
+            <div className="flex items-center gap-2">
+              <GoChecklist className="size-6" />
+              <h3 className="text-sm font-semibold">Actions</h3>
+            </div>
+          ),
           cell: (info) => {
             const value = info.cell.row.original;
             console.log(value);

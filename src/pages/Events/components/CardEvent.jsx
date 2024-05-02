@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 const CardEvent = ({
@@ -7,13 +8,30 @@ const CardEvent = ({
   venueCapacity,
   eventNotes,
   eventDate,
+  event,
 }) => {
   const navigate = useNavigate();
+
+  const { data, isPending, error } = useQuery({
+    queryKey: ["event-details", id],
+    queryFn: async () =>
+      await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/events/get-event/${id}`
+      ),
+  });
+
+  const handleFunc = () => {
+    navigate(`/event-details?id=${id}`);
+  };
+
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <article
       className="shadow-lg p-5 w-full rounded-md cursor-pointer"
-      onClick={() => navigate("/event-details")}
+      onClick={handleFunc}
     >
       <div className="flex justify-between">
         <h3 className="font-bold text-xl">{eventName}</h3>

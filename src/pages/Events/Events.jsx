@@ -2,7 +2,7 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useQuery } from "@tanstack/react-query";
 import CardEvent from "./components/CardEvent";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   TETabs,
   TETabsContent,
@@ -10,8 +10,11 @@ import {
   TETabsPane,
 } from "tw-elements-react";
 import axios from "axios";
+import AppContext from "../../context/AppProvider";
 
 const Events = () => {
+  const { setCurrentEvents } = useContext(AppContext);
+
   const [basicActive, setBasicActive] = useState("tab1");
   const navigate = useNavigate();
 
@@ -27,6 +30,10 @@ const Events = () => {
     queryFn: async () =>
       await axios.get(`${import.meta.env.VITE_BASE_URL}/events/${newDate}`),
   });
+
+  useEffect(() => {
+    setCurrentEvents();
+  }, []);
 
   const handleBasicClick = (value) => {
     if (value === basicActive) {
@@ -46,6 +53,8 @@ const Events = () => {
   if (isPending) {
     return <p>Loading...</p>;
   }
+
+  console.log(data)
 
   return (
     <section className="container-page md:ps-1 ps-2 md:pe-10 pe-2">
@@ -76,7 +85,9 @@ const Events = () => {
               >
                 Current{" "}
                 <div className="rounded-full px-[.3rem] py-[.1rem] flex justify-center items-center bg-tertiary-colour text-white absolute top-1 right-1">
-                  <h4 className="text-[.63rem]">{data?.data?.current?.length}</h4>
+                  <h4 className="text-[.63rem]">
+                    {data?.data?.current?.length}
+                  </h4>
                 </div>
               </TETabsItem>
               <TETabsItem
@@ -110,7 +121,7 @@ const Events = () => {
             </div>
           ) : (
             data?.data?.current.map((event) => {
-              return <CardEvent key={event?.id} {...event} />;
+              return <CardEvent event={event} key={event?.id} {...event} />;
             })
           )}
         </TETabsPane>
@@ -121,7 +132,7 @@ const Events = () => {
               <h2>There's no past events for the moment...</h2>
             </div>
           ) : (
-            data?.data?.current.map((event) => {
+            data?.data?.past.map((event) => {
               return <CardEvent key={event?.id} {...event} />;
             })
           )}
