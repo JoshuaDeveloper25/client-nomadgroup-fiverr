@@ -1,8 +1,9 @@
+import { useContext, useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import AppContext from "../../context/AppProvider";
 import { useQuery } from "@tanstack/react-query";
 import CardEvent from "./components/CardEvent";
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
 import {
   TETabs,
   TETabsContent,
@@ -10,7 +11,6 @@ import {
   TETabsPane,
 } from "tw-elements-react";
 import axios from "axios";
-import AppContext from "../../context/AppProvider";
 
 const Events = () => {
   const { setCurrentEvents } = useContext(AppContext);
@@ -49,8 +49,6 @@ const Events = () => {
   const pastEvent = () => {
     handleBasicClick("tab2");
   };
-
-  console.log(data)
 
   return (
     <section className="container-page md:ps-1 ps-2 md:pe-10 pe-2">
@@ -129,7 +127,7 @@ const Events = () => {
             </div>
           ) : (
             data?.data?.past.map((event) => {
-              return <CardEvent key={event?.id} {...event} />;
+              return <CardEvent event={event} key={event?.id} {...event} />;
             })
           )}
         </TETabsPane>

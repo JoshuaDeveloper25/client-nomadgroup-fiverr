@@ -8,7 +8,10 @@ const CardEvent = ({
   eventNotes,
   eventDate,
   event,
+  total,
+  remainingGuests
 }) => {
+
   return (
     <Link to={`/event-details/?id=${id}`}>
       <article className="shadow-lg p-5 w-full rounded-md cursor-pointer">
@@ -27,14 +30,12 @@ const CardEvent = ({
         </div>
 
         <div className="flex gap-3 items-center my-3">
-          <div className="w-full h-[1.1rem] flex-1 border border-black">
-            <div className="w-full h-4 bg-gray-200 dark:bg-gray-700">
-              <div className="bg-primary-colour max-w-[30%] h-4"></div>
-            </div>
-          </div>
+          <progress max={venueCapacity} value={total}></progress>
 
           <div className="flex-[20%]">
-            <h3 className="text-sm text-black/70">{venueCapacity}/400</h3>
+            <h3 className="text-sm text-black/70">
+              {total || 0}/{venueCapacity}
+            </h3>
           </div>
         </div>
         <div className="flex items-center gap-4">

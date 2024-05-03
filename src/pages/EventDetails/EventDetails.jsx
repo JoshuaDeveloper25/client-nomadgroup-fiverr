@@ -1,15 +1,19 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import EventDetailsTable from "./components/EventDetailsTable";
+import EventDetailsModal from "./components/EventDetailsModal";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import getFastApiErrors from "../../utils/getFastApiErrors";
 import { TETabs, TETabsItem } from "tw-elements-react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { useState } from "react";
 import axios from "axios";
 
 const EventDetails = () => {
-  const [basicActive, setBasicActive] = useState("tab1");
-  const [filtering, setFiltering] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const [basicActive, setBasicActive] = useState("tab1");
+  const [modalStatus, setModalStatus] = useState(false);
+  const [filtering, setFiltering] = useState("");
   const navigate = useNavigate();
 
   const { data, isPending, error } = useQuery({
@@ -33,7 +37,11 @@ const EventDetails = () => {
     handleBasicClick("tab1");
   };
 
-  console.log(data?.data?.guests);
+  const remainingGuest =
+    data?.data?.venueCapacity - (data?.data?.totalParty ?? 0);
+
+  console.log(data?.data?.totalParty ?? 0, data?.data?.venueCapacity);
+  console.log(remainingGuest);
 
   return (
     <section className="flex max-[960px]:flex-col min-[960px]:flex-row">
@@ -47,10 +55,19 @@ const EventDetails = () => {
             <button
               className="text-white bg-primary-colour bg-primary-colour-hover animation-fade rounded px-2 py-2"
               type="button"
-              onClick={() => navigate(`/create-guest/?id=${data?.data?.id}`)}
+              onClick={() => setModalStatus((prev) => !prev)}
             >
               Create Guests
             </button>
+
+            {/* Modal */}
+            {modalStatus ? (
+              <EventDetailsModal
+                remainingGuest={remainingGuest}
+                guests={data?.data?.guests}
+                setModalStatus={setModalStatus}
+              />
+            ) : null}
 
             <button
               className="text-white bg-secondary-600 hover:bg-secondary-500 animation-fade rounded px-2 py-2"
@@ -83,7 +100,7 @@ const EventDetails = () => {
             <div className="relative sm:max-w-52 max-w-full">
               <input
                 className=" outline-primary-color border py-2 px-10 w-full rounded"
-                placeholder="Search events"
+                placeholder="Search guests"
                 onChange={(e) => setFiltering(e.target.value)}
                 value={filtering}
                 type="text"

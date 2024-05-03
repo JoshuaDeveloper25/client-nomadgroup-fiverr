@@ -1,12 +1,13 @@
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import getFastApiErrors from "../../utils/getFastApiErrors";
 import logoGuestWise from "../../img/logo-guest-wise.png";
 import { useMutation } from "@tanstack/react-query";
-import getFastApiErrors from "../../utils/getFastApiErrors";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 const CreateGuest = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
@@ -20,7 +21,6 @@ const CreateGuest = () => {
       toast.success("Successfully Created!");
       navigate(`/event-details?id=${+searchParams.get("id")}`);
     },
-    // onError: (err) => console.log(err),
     onError: (err) => toast.error(getFastApiErrors(err)),
   });
 
@@ -31,11 +31,18 @@ const CreateGuest = () => {
       guestName: e?.target?.guestName?.value.trim(),
       guestEmail: e?.target?.guestEmail?.value.trim(),
       guestPhone: e?.target?.guestPhone.value.trim(),
-      partySize: e?.target?.partySize.value.trim(),
+      partySize:
+        +e?.target?.partySize.value.trim() === 0
+          ? 1
+          : +e?.target?.partySize.value.trim(),
       arrivalTime: e?.target?.arrivalTime.value.trim(),
       guestCredential: e?.target?.guestCredential.value.trim(),
     };
 
+    if (userInfo?.partySize > location?.state?.remainingGuest) {
+      return toast.error("Exceed the limit of guests!");
+    }
+    
     if (
       [
         userInfo?.guestName,
@@ -78,22 +85,28 @@ const CreateGuest = () => {
           <form onSubmit={handleSubmit} className="max-w-sm mx-auto mb-2">
             <div className="flex flex-col gap-3 mb-1">
               <div>
+                <label htmlFor="guestEmail">Guest Email</label>
+                <input
+                  defaultValue={location?.state?.email}
+                  disabled={!!location?.state?.email}
+                  id="guestEmail"
+                  name="guestEmail"
+                  type="text"
+                  placeholder="Email"
+                  className={`${
+                    !!location?.state?.email
+                      ? "text-gray-500 bg-gray-300 pointer-events-none"
+                      : null
+                  } outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border`}
+                />
+              </div>
+
+              <div>
                 <label htmlFor="guestName">Guest Name</label>
                 <input
                   name="guestName"
                   id="guestName"
                   placeholder="Name"
-                  className="outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="guestEmail">Guest Email</label>
-                <input
-                  id="guestEmail"
-                  name="guestEmail"
-                  type="text"
-                  placeholder="Email"
                   className="outline-primary-color h-full w-full rounded-sm px-3 py-3 text-sm font-normal transition-all border"
                 />
               </div>
@@ -112,6 +125,7 @@ const CreateGuest = () => {
               <div>
                 <label htmlFor="partySize">Party Size</label>
                 <input
+                  min={1}
                   id="partySize"
                   name="partySize"
                   placeholder="Size"

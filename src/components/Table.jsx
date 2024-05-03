@@ -33,7 +33,7 @@ export const Table = ({ columns, data, filtering, setFiltering }) => {
           {/* Head */}
           <thead className="bg-slate-50">
             {table.getHeaderGroups()?.map((headerGroup) => (
-              <tr key={headerGroup.id} className="">
+              <tr key={headerGroup.id}>
                 {headerGroup.headers?.map((header) => (
                   <th
                     key={header.id}
