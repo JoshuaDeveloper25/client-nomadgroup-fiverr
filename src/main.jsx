@@ -6,8 +6,10 @@ import "./index.css";
 
 // --> External package imports
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "tw-elements-react/dist/css/tw-elements-react.min.css";
 import { ToastContainer } from "react-toastify";
+
+// --> Styles from packages
+import "tw-elements-react/dist/css/tw-elements-react.min.css";
 import "react-toastify/dist/ReactToastify.css";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
